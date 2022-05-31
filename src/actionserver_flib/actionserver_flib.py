@@ -33,6 +33,44 @@ class AS_CapFace:
     def __init__(self, image_topic):
         self.flib_obj = flib.face_lib.Flib()
         
+        # load tuning parameters to flib_obj
+        self.flib_obj.set__wait_time(rospy.get_param('~wait_time'))
+        self.flib_obj.set__max_face_num(rospy.get_param('~max_face_num'))
+        self.flib_obj.set__num_representation(rospy.get_param('~num_representation'))
+        self.flib_obj.set__model_name(rospy.get_param('~model_name'))
+        self.flib_obj.set__distance_metric(rospy.get_param('~distance_metric'))
+        self.flib_obj.set__detector_backend(rospy.get_param('~detector_backend'))
+        self.flib_obj.set__normalization(rospy.get_param('~normalization'))
+        
+        
+        # load path/dir parameters to flib_obj
+        database_dir = rospy.get_param('~database_dir')
+        if (database_dir[0]=='~'): # relative path
+            database_dir=database_dir.replace('~','')
+            database_dir=os.environ['HOME']+database_dir
+            self.flib_obj.set__database_dir(database_dir)
+        else: # absolute path
+            self.flib_obj.set__database_dir(database_dir)
+            
+        
+        flib_path = rospy.get_param('~flib_path')
+        if (flib_path[0]=='~'): # relative path
+            flib_path=flib_path.replace('~','')
+            flib_path=os.environ['HOME']+flib_path
+            self.flib_obj.set__script_path(flib_path)
+        else: # absolute path
+            self.flib_obj.set__script_path(flib_path)
+        
+        
+        param_path = rospy.get_param('~param_path')
+        if (param_path[0]=='~'): # relative path
+            param_path=param_path.replace('~','')
+            param_path=os.environ['HOME']+param_path
+            self.flib_obj.set__param_path(param_path)
+        else: # absolute path
+            self.flib_obj.set__param_path(param_path)
+        
+        
         
         self.face_id=''
         
@@ -154,9 +192,35 @@ class AS_FindMatch:
         self.flib_obj.set__distance_metric(rospy.get_param('~distance_metric'))
         self.flib_obj.set__detector_backend(rospy.get_param('~detector_backend'))
         self.flib_obj.set__normalization(rospy.get_param('~normalization'))
-        self.flib_obj.set__database_dir(rospy.get_param('~database_dir'))
-        self.flib_obj.set__script_path(rospy.get_param('~flib_path'))
-        self.flib_obj.set__param_path(rospy.get_param('~param_path'))
+        
+        
+        # load path/dir parameters to flib_obj
+        database_dir = rospy.get_param('~database_dir')
+        if (database_dir[0]=='~'): # relative path
+            database_dir=database_dir.replace('~','')
+            database_dir=os.environ['HOME']+database_dir
+            self.flib_obj.set__database_dir(database_dir)
+        else: # absolute path
+            self.flib_obj.set__database_dir(database_dir)
+            
+        
+        flib_path = rospy.get_param('~flib_path')
+        if (flib_path[0]=='~'): # relative path
+            flib_path=flib_path.replace('~','')
+            flib_path=os.environ['HOME']+flib_path
+            self.flib_obj.set__script_path(flib_path)
+        else: # absolute path
+            self.flib_obj.set__script_path(flib_path)
+        
+        
+        param_path = rospy.get_param('~param_path')
+        if (param_path[0]=='~'): # relative path
+            param_path=param_path.replace('~','')
+            param_path=os.environ['HOME']+param_path
+            self.flib_obj.set__param_path(param_path)
+        else: # absolute path
+            self.flib_obj.set__param_path(param_path)
+        
 
         self.img_topic = image_topic
         
@@ -257,6 +321,45 @@ class AS_FindMatch:
 class AS_FindAttrs:
     def __init__(self,image_topic):
         self.flib_obj = flib.face_lib.Flib()
+        
+        # load parameters to flib_obj
+        self.flib_obj.set__wait_time(rospy.get_param('~wait_time'))
+        self.flib_obj.set__max_face_num(rospy.get_param('~max_face_num'))
+        self.flib_obj.set__num_representation(rospy.get_param('~num_representation'))
+        self.flib_obj.set__model_name(rospy.get_param('~model_name'))
+        self.flib_obj.set__distance_metric(rospy.get_param('~distance_metric'))
+        self.flib_obj.set__detector_backend(rospy.get_param('~detector_backend'))
+        self.flib_obj.set__normalization(rospy.get_param('~normalization'))
+        
+        # load path/dir parameters to flib_obj
+        database_dir = rospy.get_param('~database_dir')
+        if (database_dir[0]=='~'): # relative path
+            database_dir=database_dir.replace('~','')
+            database_dir=os.environ['HOME']+database_dir
+            self.flib_obj.set__database_dir(database_dir)
+        else: # absolute path
+            self.flib_obj.set__database_dir(database_dir)
+            
+        
+        flib_path = rospy.get_param('~flib_path')
+        if (flib_path[0]=='~'): # relative path
+            flib_path=flib_path.replace('~','')
+            flib_path=os.environ['HOME']+flib_path
+            self.flib_obj.set__script_path(flib_path)
+        else: # absolute path
+            self.flib_obj.set__script_path(flib_path)
+        
+        
+        param_path = rospy.get_param('~param_path')
+        if (param_path[0]=='~'): # relative path
+            param_path=param_path.replace('~','')
+            param_path=os.environ['HOME']+param_path
+            self.flib_obj.set__param_path(param_path)
+        else: # absolute path
+            self.flib_obj.set__param_path(param_path)
+        
+        
+        
 
         self.img_topic = image_topic
         
@@ -364,9 +467,36 @@ class AS_ClearDatabase:
         self.flib_obj.set__distance_metric(rospy.get_param('~distance_metric'))
         self.flib_obj.set__detector_backend(rospy.get_param('~detector_backend'))
         self.flib_obj.set__normalization(rospy.get_param('~normalization'))
-        self.flib_obj.set__database_dir(rospy.get_param('~database_dir'))
-        self.flib_obj.set__script_path(rospy.get_param('~flib_path'))
-        self.flib_obj.set__param_path(rospy.get_param('~param_path'))
+        
+        
+        # load path/dir parameters to flib_obj
+        database_dir = rospy.get_param('~database_dir')
+        if (database_dir[0]=='~'): # relative path
+            database_dir=database_dir.replace('~','')
+            database_dir=os.environ['HOME']+database_dir
+            self.flib_obj.set__database_dir(database_dir)
+        else: # absolute path
+            self.flib_obj.set__database_dir(database_dir)
+            
+        
+        flib_path = rospy.get_param('~flib_path')
+        if (flib_path[0]=='~'): # relative path
+            flib_path=flib_path.replace('~','')
+            flib_path=os.environ['HOME']+flib_path
+            self.flib_obj.set__script_path(flib_path)
+        else: # absolute path
+            self.flib_obj.set__script_path(flib_path)
+        
+        
+        param_path = rospy.get_param('~param_path')
+        if (param_path[0]=='~'): # relative path
+            param_path=param_path.replace('~','')
+            param_path=os.environ['HOME']+param_path
+            self.flib_obj.set__param_path(param_path)
+        else: # absolute path
+            self.flib_obj.set__param_path(param_path)
+        
+        
         
         self.database_dir = self.flib_obj.get__database_dir()
         
