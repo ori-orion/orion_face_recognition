@@ -42,10 +42,17 @@ elif tf_major_version == 2:
 #import imutils
 from pathlib import Path
 #from fastai.vision.data import ImageList
-from fastai.vision.learner import create_cnn
+# from fastai.vision.learner import create_cnn
+import fastai
 from fastai.vision import models
-from fastai.vision.image import pil2tensor,Image
-from fastai.vision import *
+fastai_version = fastai.__version__
+fastai_major_version = int(fastai_version.split(".")[0])
+fastai_minor_version = int(fastai_version.split(".")[1])
+if(fastai_major_version >=2 and fastai_minor_version >=6):
+    from fastai.vision import *  # replaces the image modules import above
+else:
+    from fastai.vision.image import pil2tensor,Image
+from fastai.vision import *  # replaces the image modules import above
 #import csv
 
 
@@ -71,9 +78,9 @@ class Flib():
         self.__detector_backend='opencv'
         self.__normalization='base'
         
-        self.__database_dir='/home/jianeng/Pictures/FaceBaseDemo/'
-        self.__script_path = '/home/jianeng/Documents/My_code/DeepFace_tool/'
-        self.__param_path = '/home/jianeng/catkin_ws/src/flib_ros/param/'
+        self.__database_dir=''
+        self.__script_path = ''
+        self.__param_path = ''
         
         # Detectors
         self.model = DeepFace.build_model(self.__model_name)
@@ -162,6 +169,7 @@ class Flib():
     
     def set__database_dir(self,value):
         self.__database_dir = value
+        # print('set database dir to: {}'.format(self.__database_dir))
     
     def set__script_path(self,value):
         self.__script_path= value

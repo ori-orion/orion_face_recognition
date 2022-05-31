@@ -6,7 +6,7 @@ img_topic: /cv_camera/image_raw
 wait_time: 100.0 
 
 # Max number of faces (frames with face) saved in the __frame_list
-max_face_num: 10.0 
+max_face_num: 2.0 
 
 # Number of representations for one face
 num_representation: 2.0  
@@ -24,10 +24,10 @@ detector_backend: opencv
 normalization: base
 
 # directory to save faces
-database_dir: /home/jianeng/Pictures/FaceBaseDemo/
+database_dir: /home/ricardo/orion_ws/src/orion_face_recognition/saved_faces/
 
 # directory of flib path 
-flib_path: /home/jianeng/catkin_ws/src/orion_face_recognition/src/flib/
+flib_path: /home/ricardo/orion_ws/src/orion_face_recognition/src/flib/
 
 # directory of the config (parameter) path
-param_path: /home/jianeng/catkin_ws/src/orion_face_recognition/config/
+param_path: /home/ricardo/orion_ws/src/orion_face_recognition/config/
