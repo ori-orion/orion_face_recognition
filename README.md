@@ -1,6 +1,6 @@
 # orion_face_recognition
 
-## Prerequisites 
+## Package Prerequisites 
 
 1. numpy>=1.14.0
 3. pandas>=0.23.4
@@ -24,6 +24,14 @@
 21. actionlib
 22. cv_bridge
 23. glob
+
+
+## Installation Guide
+1. Git clone the repo
+2. Download the file, 'ff_stage-1-256-rn50.pkl', in Google Drive, 'Robocup@Home->Perception->Facial Recognition', to 'orion_face_recognition/src/flib/'
+3. build the package
+4. (Suggested) go through each configure file in 'orion_face_recognition/config/', change the parameter accordingly
+
 
 
 ## Capturing Face Action Server
@@ -117,11 +125,73 @@ This action server is used to compare the captured face from real-time camera to
 > roslaunch orion_face_recognition as_findmatch_flib_node.launch
 
 
+## Find Attributes Action Server
+This action server finds the attributes of input face image. The face image can either come from real-time camera or those saved in the database
+
+**Action Name:** as_Findattrs
+
+**Action msg path:** orion_face_recognition/ActionServer_FindAttrsAction
+
+**Action Specification: (type is in bracket)**
+> Goal
+> >(string) face_id
+
+> Result
+>>(string[ ]) attrs
+>>
+>>(int32) num_attrs
+
+> Feedback
+> >(float32) time
+
+**Explanation:**
+
+- face_id: If leave empty, action server will capture faces from real-time camera output, then analyze the attributes of those captured faces. If a face_id is given, action server will analyze the attributes of all faces that match the face_id in the database
+
+- attrs: a string list of attributes
+
+- num_attrs: number of attributes in attrs
+
+- time: not assigned
 
 
+**How to start the action server:**
+
+1. Set the parameters in  
+> orion_face_recognition/config/param_as_findattrs.yaml
+2. Start the action server with command
+> roslaunch orion_face_recognition as_findattrs_flib_node.launch
 
 
+## Clear Database Action Server
+This action server clears all the files in the database
+
+**Action Name:** as_Cleardatabase
+
+**Action msg path:** orion_face_recognition/ActionServer_ClearDatabaseAction
+
+**Action Specification: (type is in bracket)**
+> Goal
+> >(string) temp
+
+> Result
+>>(int32) Is_success
+
+> Feedback
+> >(float32) time
+
+**Explanation:**
+- temp: No need to assign any value, just call the action server
+- Is_success: indicate whether the action is successful or not. (1 for success. 0 for failure)
+- time: not assigned
 
 
+**How to start the action server:**
 
+1. Set the parameters in  
+> orion_face_recognition/config/param_as_cleardatabase.yaml
+2. Start the action server with command
+> roslaunch orion_face_recognition as_cleardatabase_flib_node.launch
 
+## Contact
+If you have any question or find any bug, please contact: jianeng@robots.ox.ac.uk
