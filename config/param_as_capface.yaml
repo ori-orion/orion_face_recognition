@@ -1,7 +1,3 @@
-# Img_topic
-img_topic: /cv_camera/image_raw
-
-
 # Time for subscribing the camera topic
 wait_time: 100.0 
 
@@ -22,12 +18,3 @@ detector_backend: opencv
 
 # Normalize the input image before feeding to model: base, raw, Facenet, Facenet2018, VGGFace, VGGFace2, ArcFace
 normalization: base
-
-# directory to save faces
-database_dir: /home/ricardo/orion_ws/src/orion_face_recognition/saved_faces/
-
-# directory of flib path 
-flib_path: /home/ricardo/orion_ws/src/orion_face_recognition/src/flib/
-
-# directory of the config (parameter) path
-param_path: /home/ricardo/orion_ws/src/orion_face_recognition/config/

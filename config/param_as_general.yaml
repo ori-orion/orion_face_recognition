@@ -1,0 +1,11 @@
+# Img_topic
+img_topic: /cv_camera/image_raw
+
+# directory to save faces
+database_dir: /home/ricardo/orion_ws/src/orion_face_recognition/saved_faces/
+
+# directory of flib path 
+flib_path: /home/ricardo/orion_ws/src/orion_face_recognition/src/flib/
+
+# directory of the config (parameter) path
+param_path: /home/ricardo/orion_ws/src/orion_face_recognition/config/

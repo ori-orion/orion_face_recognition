@@ -355,6 +355,18 @@ class AS_FindAttrs:
 class AS_ClearDatabase:
     def __init__(self):
         self.flib_obj = flib.face_lib.Flib()
+
+        # load parameters to flib_obj
+        self.flib_obj.set__wait_time(rospy.get_param('~wait_time'))
+        self.flib_obj.set__max_face_num(rospy.get_param('~max_face_num'))
+        self.flib_obj.set__num_representation(rospy.get_param('~num_representation'))
+        self.flib_obj.set__model_name(rospy.get_param('~model_name'))
+        self.flib_obj.set__distance_metric(rospy.get_param('~distance_metric'))
+        self.flib_obj.set__detector_backend(rospy.get_param('~detector_backend'))
+        self.flib_obj.set__normalization(rospy.get_param('~normalization'))
+        self.flib_obj.set__database_dir(rospy.get_param('~database_dir'))
+        self.flib_obj.set__script_path(rospy.get_param('~flib_path'))
+        self.flib_obj.set__param_path(rospy.get_param('~param_path'))
         
         self.database_dir = self.flib_obj.get__database_dir()
         
