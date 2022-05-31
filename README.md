@@ -35,7 +35,6 @@
 5. (Suggested) Go through each configure file in 'orion_face_recognition/config/', change the parameter accordingly
 
 
-
 ## Capturing Face Action Server
 This action server is used to register faces (potentially with different representations) to the database
 
@@ -194,6 +193,32 @@ This action server clears all the files in the database
 > orion_face_recognition/config/param_as_cleardatabase.yaml
 2. Start the action server with command
 > roslaunch orion_face_recognition as_cleardatabase_flib_node.launch
+
+
+
+## Paremeter setting
+### In 'param_as_general.yaml'
+
+**Note: all those dir/path parameter must have '/' on both side**
+
+**Relative path style: \~/orion_ws/src/orion_face_recognition/, tilde(~) is put at the start**
+
+**Absolute path style: /home/jianeng/catkin_ws/src/orion_face_recognition/config, No tilde(~)**
+- img_topic: image topic name to subscribe (e.g., /cv_camera/image_raw)
+- database_dir: the directory that is used to save face images
+- flib_path: directory of the flib class
+- param_path: directoy to put all those yaml files
+
+### In the other yaml files
+- wait_time: Time for subscribing the camera topic
+- max_face_num: Max number of faces (frames with face) saved in the '\_\_frame_list'
+- num_representation: Number of representations for one face
+- model_name: Pretrained model name for face recognition: VGG-Face, OpenFace, DeepFace, DeepID
+- distance_metric: Metric name for face recognition: cosine, euclidean, euclidean_l2
+- detector_backend: Detector backend for face detection: opencv, ssd, dlib, mtcnn, retinaface, mediapipe
+- normalization: Normalize the input image before feeding to model: base, raw, Facenet, Facenet2018, VGGFace, VGGFace2, ArcFace
+
+
 
 ## Contact
 If you have any question or find any bug, please contact: jianeng@robots.ox.ac.uk
