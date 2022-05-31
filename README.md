@@ -11,30 +11,49 @@
 
 <div id='id-section1'/>
 
-## Package Prerequisites 
-1. numpy>=1.14.0
-3. pandas>=0.23.4
-4. gdown>=3.10.1
-5. tqdm>=4.30.0
-6. Pillow>=5.2.0
-7. opencv-python>=4.5.5.64
-8. opencv-contrib-python>=4.3.0.36
-9. tensorflow>=1.9.0
-10. keras>=2.2.0
-11. Flask>=1.1.2
-12. mtcnn>=0.1.0
-13. lightgbm>=2.3.1
-14. dlib>=19.20.0
-15. retina-face>=0.0.1
-16. mediapipe>=0.8.7.3
-17. fire>=0.4.0
-18. fastai=='1.0.61'
-19. pickle
-20. rospy
-21. actionlib
-22. cv_bridge
-23. glob
-24. deepface
+## Package Prerequisites (Example installation commands are provided)
+- numpy>=1.14.0
+> pip install numpy
+- pandas>=0.23.4
+> pip install pandas
+- gdown>=3.10.1
+> pip install gdown
+- tqdm>=4.30.0
+> pip install tqdm
+- Pillow>=5.2.0
+> pip install pillow
+- opencv-python>=4.5.5.64
+> pip install opencv-python
+- tensorflow>=1.9.0
+> pip install tensorflow
+- keras>=2.2.0
+> pip install keras
+- Flask>=1.1.2
+> pip install -U Flask
+- mtcnn>=0.1.0
+> pip install mtcnn
+- lightgbm>=2.3.1
+> pip install lightgbm
+- dlib>=19.20.0
+> pip install dlib
+- retina-face>=0.0.1
+> pip install retina-face
+- mediapipe>=0.8.7.3
+> pip install mediapipe
+- fastai=='1.0.61'
+> pip install fastai==1.0.61
+- pickle
+> pip install pickle-mixin
+- rospy
+> sudo apt-get install -y python-rospy
+- actionlib
+> sudo apt-get install -y python-actionlib
+- cv_bridge
+> sudo apt-get install ros-(ROS version name)-cv-bridge
+- glob
+> pip install glob2
+- deepface
+> pip install deepface
 
 <div id='id-section2'/>
 
