@@ -1,0 +1,9 @@
+#goal definition
+string face_id
+---
+#result definition
+string[] attrs
+int32 num_attrs
+---
+#feedback definition
+float32 time

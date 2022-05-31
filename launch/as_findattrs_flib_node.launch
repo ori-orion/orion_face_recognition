@@ -1,0 +1,6 @@
+<launch>
+	<node name = "as_findattrs_flib" pkg = "orion_face_recognition" type = "as_findattrs_flib_node.py" output = "screen">
+		<rosparam command="load" 
+		file = "$(find orion_face_recognition)/config/param_as_findattrs.yaml"/>
+	</node>
+</launch>

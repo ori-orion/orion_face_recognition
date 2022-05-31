@@ -1,0 +1,8 @@
+#goal definition
+string temp
+---
+#result definition
+int32 Is_success
+---
+#feedback definition
+float32 time
