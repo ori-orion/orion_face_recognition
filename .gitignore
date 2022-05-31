@@ -108,3 +108,6 @@ venv.bak/
 .mypy_cache/
 
 .idea/*
+
+# ignore contents of saved faces/ dir
+saved_faces/*
