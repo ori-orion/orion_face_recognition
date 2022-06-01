@@ -2,10 +2,10 @@
 wait_time: 100.0 
 
 # Max number of faces (frames with face) saved in the __frame_list
-max_face_num: 2.0 
+max_face_num: 5.0 
 
 # Number of representations for one face
-num_representation: 2.0  
+num_representation: 3.0  
 
 # Pretrained model name for face recognition: VGG-Face, OpenFace, DeepFace, DeepID
 model_name: VGG-Face
