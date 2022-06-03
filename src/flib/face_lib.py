@@ -229,6 +229,12 @@ class Flib():
             
             If_registered=True
         
+        
+        if (If_registered==False):
+            best_idx=-1
+            count_list=[]
+        
+        
         return If_registered,best_idx, count_list
     
     def saveBest_Face_Reps_ros(self, face_name):
