@@ -3,7 +3,7 @@ string face_id
 ---
 #result definition
 string name
-int32 If_saved
+int32 If_saved   # returns 1 if face is found in image 
 ---
 #feedback definition
 float32 time
