@@ -268,6 +268,11 @@ class Flib():
         """
         Go through frame_list, find the most matched face in the database_dir. If success, return True
         """
+
+        # if the frame list is empty, just return False
+        if(len(self.__frame_list) == 0):
+            return False
+
         self.best_match_dir=''
         self.best_match_score=0
         self.match_score_list={}
@@ -388,9 +393,6 @@ class Flib():
         
         # # When everything done, release the capture
         # cap.release()        
-        
-        if(len(self.__frame_list) == 0):
-            return False
         
         for idx_frame in range(len(self.__frame_list)):
             
