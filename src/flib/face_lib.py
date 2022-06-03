@@ -312,6 +312,7 @@ class Flib():
                     employees.append(exact_path)
                     
         if len(employees) == 0:
+            return False
             raise ValueError("There is no image in ", self.__database_dir," folder! Validate .jpg or .png files exist in this path.")
         
         #find representations for db images

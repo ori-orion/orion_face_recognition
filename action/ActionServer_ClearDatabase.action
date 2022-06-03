@@ -2,7 +2,7 @@
 string temp
 ---
 #result definition
-int32 Is_success
+bool Is_success
 ---
 #feedback definition
 float32 time

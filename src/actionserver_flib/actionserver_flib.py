@@ -116,7 +116,7 @@ class AS_CapFace:
             rospy.loginfo('Enter loop. time_now: %s',str(rospy.get_time()))
             #self.image_sub = rospy.Subscriber(self.img_topic, Image, self.img_sub_cb)
             
-            while len(self.flib_obj.get__frame_list())<=self.flib_obj.get__max_face_num():
+            while len(self.flib_obj.get__frame_list())<self.flib_obj.get__max_face_num() and rospy.get_time() < timeout:
                 rospy.loginfo('Num frame: %s'+ str(len(self.flib_obj.get__frame_list())) )
                 ros_image = rospy.wait_for_message(self.img_topic, Image)
                 frame = self.bridge.imgmsg_to_cv2(ros_image, "bgr8")
@@ -140,22 +140,28 @@ class AS_CapFace:
 
             rospy.sleep(1)
         
+        rep_count=0
         for i in range(idx_rep):
-            rospy.loginfo('Processing Rep: %s',str(i))
-            self.flib_obj.replaceInterm_vars(frame_list=frame_list_all[i], face_pixel_list=face_pixel_list_all[i])
-            Is_reg, best_idx, count_list = self.flib_obj.registerFace_ros()
-            
-            
-            ## Just debug
-            rospy.loginfo('Best idx: %s',str(best_idx))
-            for nn in range(len(count_list)):
-                rospy.loginfo('Rep %s, Im %s, count: %s', str(idx_rep), str(nn), str(count_list[nn]))
+            if (len(frame_list_all[i])==self.flib_obj.get__max_face_num()):
+                rep_count=rep_count+1
+                rospy.loginfo('Processing Rep: %s',str(i))
+                self.flib_obj.replaceInterm_vars(frame_list=frame_list_all[i], face_pixel_list=face_pixel_list_all[i])
+                Is_reg, best_idx, count_list = self.flib_obj.registerFace_ros()
+                
+                
+                ## Just debug
+                rospy.loginfo('Best idx: %s',str(best_idx))
+                for nn in range(len(count_list)):
+                    rospy.loginfo('Rep %s, Im %s, count: %s', str(idx_rep), str(nn), str(count_list[nn]))
         
         
         If_saved = self.flib_obj.saveBest_Face_Reps_ros(self.face_id)
         
-        rospy.loginfo('Image_saved')
-        rospy.loginfo('rep num: %s', str(len(frame_list_all)))
+        if (If_saved==True):
+            rospy.loginfo('Image_saved')
+            rospy.loginfo('rep num: %s', str(len(self.flib_obj.Best_Face_Reps)))
+        else:
+            rospy.loginfo('No image is saved')
         
         #self.as_Capface.result.name = 'Face'+str(self.face_id)
         
@@ -261,45 +267,55 @@ class AS_FindMatch:
         
         rospy.loginfo('Finish Capturing. Start finding match')
         
-        self.flib_obj.FList_Find_ros()
-        
-        matched_file_name=self.flib_obj.best_match_dir
-        match_score = self.flib_obj.best_match_score
-        second_matched_file_name=self.flib_obj.second_best_match_dir
-        second_matched_score = self.flib_obj.second_best_match_score
-        
-        
-        # See if best match and second best match is the same person
-        best_img_name=matched_file_name[len(self.database_dir):len(matched_file_name)]
-        second_best_img_name=second_matched_file_name[len(self.database_dir):len(second_matched_file_name)]
-        
-        best_img_name_spilt = best_img_name.split('_')
-        for i in range(len(best_img_name_spilt)):
-            if (best_img_name_spilt[i]!='Face'):
-                face_id_best = best_img_name_spilt[i]
-                break
+        If_find = self.flib_obj.FList_Find_ros()
+        if (If_find == True):
+            matched_file_name=self.flib_obj.best_match_dir
+            match_score = self.flib_obj.best_match_score
+            second_matched_file_name=self.flib_obj.second_best_match_dir
+            second_matched_score = self.flib_obj.second_best_match_score
             
-        second_best_img_name_split = second_best_img_name.split('_')
-        for i in range(len(second_best_img_name_split)):
-            if (second_best_img_name_split[i]!='Face'):
-                face_id_second_best = second_best_img_name_split[i]
-                break
+            
+            # See if best match and second best match is the same person
+            best_img_name=matched_file_name[len(self.database_dir):len(matched_file_name)]
+            second_best_img_name=second_matched_file_name[len(self.database_dir):len(second_matched_file_name)]
+            
+            best_img_name_spilt = best_img_name.split('_')
+            for i in range(len(best_img_name_spilt)):
+                if (best_img_name_spilt[i]!='Face'):
+                    face_id_best = best_img_name_spilt[i]
+                    break
+                
+            second_best_img_name_split = second_best_img_name.split('_')
+            for i in range(len(second_best_img_name_split)):
+                if (second_best_img_name_split[i]!='Face'):
+                    face_id_second_best = second_best_img_name_split[i]
+                    break
+            
+            if face_id_best == face_id_second_best:
+                match_score = match_score + second_matched_score
+            
+            
+            # Match finish
+            rospy.loginfo('Match Finish. File: %s, Score: %s', matched_file_name, str(match_score))
+            
+            _result = orion_face_recognition.msg.ActionServer_FindMatchResult()
+            _result.file_name = matched_file_name
+            _result.file_name_2ndbest = second_matched_file_name
+            _result.best_match_score = match_score
+            _result.second_best_match_score = second_matched_score
+            _result.face_id = face_id_best
+            _result.If_find=True
         
-        if face_id_best == face_id_second_best:
-            match_score = match_score + second_matched_score
-        
-        
-        # Match finish
-        rospy.loginfo('Match Finish. File: %s, Score: %s', matched_file_name, str(match_score))
-        
-        _result = orion_face_recognition.msg.ActionServer_FindMatchResult()
-        _result.file_name = matched_file_name
-        _result.file_name_2ndbest = second_matched_file_name
-        _result.best_match_score = match_score
-        _result.second_best_match_score = second_matched_score
-        _result.face_id = face_id_best
-        
-        
+        else:
+            rospy.loginfo('Match Finish. No match')
+            
+            _result = orion_face_recognition.msg.ActionServer_FindMatchResult()
+            _result.file_name = ''
+            _result.file_name_2ndbest = ''
+            _result.best_match_score = 0
+            _result.second_best_match_score = 0
+            _result.face_id = ''
+            _result.If_find=False
         
         # segment the matched_file_name to give the face_id
         # The naming of the registered face follows the following pattern
@@ -509,7 +525,7 @@ class AS_ClearDatabase:
         
     def Cleardatabase_cb(self,goal_msg):
         
-        Is_success = 0
+        Is_success = False
         rospy.loginfo('Final Count')
         a=5
         for i in range(6):
@@ -527,7 +543,7 @@ class AS_ClearDatabase:
             os.remove(f)
         
         os.chdir(current_dir)
-        Is_success = 1
+        Is_success = True
         
         _result = orion_face_recognition.msg.ActionServer_ClearDatabaseResult()
         _result.Is_success = Is_success

@@ -7,6 +7,8 @@ string file_name_2ndbest
 string face_id
 float32 best_match_score
 float32 second_best_match_score
+
+bool If_find
 ---
 #feedback definition
 float32 time
