@@ -103,7 +103,6 @@ class AS_CapFace:
         face_pixel_list_all = []
         
         
-        
         #rate = rospy.Rate(100)
         timeout = rospy.get_time() + self.flib_obj.get__wait_time()
         

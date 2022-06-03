@@ -1,5 +1,5 @@
 # Time for subscribing the camera topic
-wait_time: 100.0 
+wait_time: 10.0 
 
 # Max number of faces (frames with face) saved in the __frame_list
 max_face_num: 5.0 

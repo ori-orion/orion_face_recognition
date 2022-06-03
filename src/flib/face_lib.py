@@ -389,6 +389,8 @@ class Flib():
         # # When everything done, release the capture
         # cap.release()        
         
+        if(len(self.__frame_list) == 0):
+            return False
         
         for idx_frame in range(len(self.__frame_list)):
             
