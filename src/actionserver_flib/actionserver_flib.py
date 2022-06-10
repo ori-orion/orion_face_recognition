@@ -240,6 +240,8 @@ class AS_FindMatch:
         
         self.database_dir = self.flib_obj.get__database_dir()
         
+        self.pub = rospy.Publisher('MatchResult', Image, queue_size=10)
+        
         # Check how many img in the database
         current_dir = os.getcwd()
         os.chdir(self.database_dir)
@@ -315,6 +317,13 @@ class AS_FindMatch:
             _result.second_best_match_score = 0
             _result.face_id = ''
             _result.If_find=False
+            
+        if (_result.If_find==True):
+            Im = cv2.imread(matched_file_name)
+            font = cv2.FONT_HERSHEY_COMPLEX
+            Img_anno = cv2.putText(Im, face_id_best, (0,50), font, 2, (255, 0, 0))
+            Im_msg = self.bridge.cv2_to_imgmsg(Img_anno, "bgr8")
+            self.pub.publish(Im_msg)
         
         # segment the matched_file_name to give the face_id
         # The naming of the registered face follows the following pattern
