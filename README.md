@@ -196,6 +196,9 @@ This action server finds the attributes of input face image. The face image can 
 2. Start the action server with command
 > roslaunch orion_face_recognition as_findattrs_flib_node.launch
 
+**Topic to check match result:** /MatchResult
+
+
 <div id='id-section6'/>
 
 ## Clear Database Action Server
