@@ -157,6 +157,8 @@ This action server is used to compare the captured face from real-time camera to
 2. Start the action server with command
 > roslaunch orion_face_recognition as_findmatch_flib_node.launch
 
+**Topic to check match result:** /MatchResult
+
 <div id='id-section5'/>
 
 ## Find Attributes Action Server
@@ -195,9 +197,6 @@ This action server finds the attributes of input face image. The face image can 
 > orion_face_recognition/config/param_as_findattrs.yaml
 2. Start the action server with command
 > roslaunch orion_face_recognition as_findattrs_flib_node.launch
-
-**Topic to check match result:** /MatchResult
-
 
 <div id='id-section6'/>
 
