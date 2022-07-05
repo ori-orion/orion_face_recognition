@@ -103,6 +103,8 @@ This action server is used to register faces (potentially with different represe
 2. Start the action server with command
 > roslaunch orion_face_recognition as_capface_flib_node.launch
 
+**Topic to check capture result:** /CapResult
+
 <div id='id-section4'/>
 
 ## Find Matched Face Action Server
@@ -197,6 +199,8 @@ This action server finds the attributes of input face image. The face image can 
 > orion_face_recognition/config/param_as_findattrs.yaml
 2. Start the action server with command
 > roslaunch orion_face_recognition as_findattrs_flib_node.launch
+
+**A potential issue:** If you give a face_id (find attributes of image in the database), you need to make sure every face_id in database has a UNIQUE name. (e.g., '1' and '12' are two names in the data base. If you give face_id:'1', attributes of both of the images would be considered, because they all have '1')
 
 <div id='id-section6'/>
 
