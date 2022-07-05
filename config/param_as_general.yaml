@@ -3,10 +3,10 @@ img_topic: /cv_camera/image_raw
 #img_topic: /hsrb/head_rgbd_sensor/rgb/image_raw
 
 # directory to save faces
-database_dir: ~/catkin_ws/src/orion_face_recognition/saved_faces/
+database_dir: ~/orion_ws/src/orion_face_recognition/saved_faces/
 
 # directory of flib path 
-flib_path: ~/catkin_ws/src/orion_face_recognition/src/flib/
+flib_path: ~/orion_ws/src/orion_face_recognition/src/flib/
 
 # directory of the config (parameter) path
-param_path: ~/catkin_ws/src/orion_face_recognition/config/
+param_path: ~/orion_ws/src/orion_face_recognition/config/

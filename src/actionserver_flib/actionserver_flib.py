@@ -86,7 +86,8 @@ class AS_CapFace:
         
         #self.image_sub = rospy.Subscriber(image_topic, Image, callback)
 
-        
+        self.pub = rospy.Publisher('CapResult', Image, queue_size=10)
+
         self.as_Capface.start()
         
         rospy.loginfo('as_Capface action server initialized')
@@ -163,6 +164,14 @@ class AS_CapFace:
             rospy.loginfo('No image is saved')
         
         #self.as_Capface.result.name = 'Face'+str(self.face_id)
+
+        if (If_saved==True):
+            Im = self.flib_obj.Best_Face_Reps[0]#cv2.imread(matched_file_name)
+            font = cv2.FONT_HERSHEY_COMPLEX
+            Img_anno = cv2.putText(Im, 'Rep0', (0,50), font, 2, (255, 0, 0))
+            Im_msg = self.bridge.cv2_to_imgmsg(Img_anno, "bgr8")
+            self.pub.publish(Im_msg)
+
         
         _result = orion_face_recognition.msg.ActionServer_CapFaceResult()
         
