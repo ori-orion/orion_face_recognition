@@ -22,8 +22,13 @@ import pickle
 import pandas as pd
 
 
+# force use of cpu
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+# os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 import tensorflow as tf
 tf_version = tf.__version__
+tf.device('/cpu:0') # force tf to use cpu
 tf_major_version = int(tf_version.split(".")[0])
 tf_minor_version = int(tf_version.split(".")[1])
 
@@ -83,7 +88,8 @@ class Flib():
         self.__param_path = ''
         
         # Detectors
-        self.model = DeepFace.build_model(self.__model_name)
+        with tf.device('/cpu:0'):
+            self.model = DeepFace.build_model(self.__model_name)
         self.input_shape_x, self.input_shape_y = functions.find_input_shape(self.model)
         self.face_detector = FaceDetector.build_model(self.__detector_backend)
         
