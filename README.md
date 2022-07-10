@@ -11,7 +11,7 @@
 
 <div id='id-section1'/>
 
-## Package Prerequisites (Example installation commands are provided)
+## Package Prerequisites (deprecated - check requirements.txt)
 - numpy>=1.14.0
 > pip install numpy
 - pandas>=0.23.4
@@ -59,7 +59,7 @@
 
 ## Installation Guide
 1. Git clone the repo
-2. Download the file, 'ff_stage-1-256-rn50.pkl', in Google Drive, 'Robocup@Home->Perception->Facial Recognition', to 'orion_face_recognition/src/flib/'
+2. ~~Download the file, 'ff_stage-1-256-rn50.pkl', in Google Drive, 'Robocup@Home->Perception->Facial Recognition', to 'orion_face_recognition/src/flib/'~~ 
 3. (Suggested) Create a folder in /orion_face_recognition, called 'saved_faces'
 4. build the package
 5. (Suggested) Go through each configure file in 'orion_face_recognition/config/', change the parameter accordingly
