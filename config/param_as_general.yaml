@@ -1,6 +1,6 @@
 # Img_topic
-img_topic: /cv_camera/image_raw
-#img_topic: /hsrb/head_rgbd_sensor/rgb/image_raw
+#img_topic: /cv_camera/image_raw
+img_topic: /hsrb/head_rgbd_sensor/rgb/image_raw
 
 # directory to save faces
 database_dir: ~/orion_ws/src/orion_face_recognition/saved_faces/
