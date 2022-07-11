@@ -11,7 +11,7 @@
 
 <div id='id-section1'/>
 
-## Package Prerequisites (Example installation commands are provided)
+## Package Prerequisites (deprecated - check requirements.txt)
 - numpy>=1.14.0
 > pip install numpy
 - pandas>=0.23.4
@@ -59,7 +59,7 @@
 
 ## Installation Guide
 1. Git clone the repo
-2. Download the file, 'ff_stage-1-256-rn50.pkl', in Google Drive, 'Robocup@Home->Perception->Facial Recognition', to 'orion_face_recognition/src/flib/'
+2. ~~Download the file, 'ff_stage-1-256-rn50.pkl', in Google Drive, 'Robocup@Home->Perception->Facial Recognition', to 'orion_face_recognition/src/flib/'~~ 
 3. (Suggested) Create a folder in /orion_face_recognition, called 'saved_faces'
 4. build the package
 5. (Suggested) Go through each configure file in 'orion_face_recognition/config/', change the parameter accordingly
@@ -102,6 +102,8 @@ This action server is used to register faces (potentially with different represe
 > orion_face_recognition/config/param_as_capface.yaml
 2. Start the action server with command
 > roslaunch orion_face_recognition as_capface_flib_node.launch
+
+**Topic to check capture result:** /CapResult
 
 <div id='id-section4'/>
 
@@ -197,6 +199,8 @@ This action server finds the attributes of input face image. The face image can 
 > orion_face_recognition/config/param_as_findattrs.yaml
 2. Start the action server with command
 > roslaunch orion_face_recognition as_findattrs_flib_node.launch
+
+**A potential issue:** If you give a face_id (find attributes of image in the database), you need to make sure every face_id in database has a UNIQUE name. (e.g., '1' and '12' are two names in the data base. If you give face_id:'1', attributes of both of the images would be considered, because they all have '1')
 
 <div id='id-section6'/>
 

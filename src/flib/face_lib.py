@@ -22,8 +22,13 @@ import pickle
 import pandas as pd
 
 
+# force use of cpu
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 import tensorflow as tf
 tf_version = tf.__version__
+#tf.device('/cpu:0') # force tf to use cpu
 tf_major_version = int(tf_version.split(".")[0])
 tf_minor_version = int(tf_version.split(".")[1])
 
@@ -83,7 +88,8 @@ class Flib():
         self.__param_path = ''
         
         # Detectors
-        self.model = DeepFace.build_model(self.__model_name)
+        with tf.device('/cpu:0'):
+            self.model = DeepFace.build_model(self.__model_name)
         self.input_shape_x, self.input_shape_y = functions.find_input_shape(self.model)
         self.face_detector = FaceDetector.build_model(self.__detector_backend)
         
@@ -333,14 +339,14 @@ class Flib():
     
             for j in model_names_list:
                 custom_model = models_list[j]
+                with tf.device('/cpu:0'):
+                    representation = DeepFace.represent(img_path = employee
+                                    , model_name = self.__model_name, model = self.model
+                                    , enforce_detection = False, detector_backend = self.__detector_backend
+                                    , align = True
+                                    , normalization = self.__normalization)
     
-                representation = DeepFace.represent(img_path = employee
-                                , model_name = self.__model_name, model = self.model
-                                , enforce_detection = False, detector_backend = self.__detector_backend
-                                , align = True
-                                , normalization = self.__normalization)
-    
-                instance.append(representation)
+                    instance.append(representation)
                 
             # representation_list is a list of img_pixels for each file in the database
             representation_list.append(instance)
@@ -407,7 +413,8 @@ class Flib():
                     
                     # Represent detected frame
                     img_pixels = self.FLib_preprocess_face(img = self.__frame_list[idx_frame], target_size=(self.input_shape_y, self.input_shape_x))
-                    target_representation = self.model.predict(img_pixels)[0].tolist()
+                    with tf.device('/cpu:0'): #force cpu
+                        target_representation = self.model.predict(img_pixels)[0].tolist()
             
                     for k in metric_names_list:
                         distances = []
@@ -470,7 +477,9 @@ class Flib():
         history=[]
         
         path=self.__script_path#Path(os.getcwd())
-        learn=load_learner(path,"ff_stage-1-256-rn50.pkl")
+        #fastai.device = torch.device('cpu') #force cpu
+        #with torch.device("cpu"):
+        learn=load_learner(path,"ff_stage-1-256-rn50.pkl",device='cpu')
         face_cascade = cv2.CascadeClassifier(path+"haarcascade_frontalface_default.xml")
         
         for i in range(len(self.__frame_list)):
@@ -493,8 +502,9 @@ class Flib():
                 ## Cropping face and changing BGR To RGB
                 img_cp = self.__frame_list[i][Y_1:Y_2, X_1:X_2].copy()
                 img_cp1 = cv2.cvtColor(img_cp, cv2.COLOR_BGR2RGB)
-    
-                ## Prediction of facial featues
+                
+                
+                #fastai.device = torch.device('cpu')# Prediction of facial featues
                 prediction = str(
                     learn.predict(Image(pil2tensor(img_cp1, np.float32).div_(255)))[0]
                 ).split(";")
@@ -701,8 +711,8 @@ class Flib():
         """
         
         self.Best_Face_Reps=[]
-        
-        model = DeepFace.build_model(model_name)
+        with tf.device('/cpu:0'):
+            model = DeepFace.build_model(model_name)
         input_shape_x, input_shape_y = functions.find_input_shape(model)
         face_detector = FaceDetector.build_model('opencv')
         face_list=[] # grayscale face list
@@ -804,8 +814,8 @@ class Flib():
         Turn on WebCam, Capture the most frequently appeared face. And return the face
         """
         self.Best_Face_Reps=[]
-        
-        model = DeepFace.build_model(model_name)
+        with tf.device('/cpu:0'):
+            model = DeepFace.build_model(model_name)
         input_shape_x, input_shape_y = functions.find_input_shape(model)
         face_detector = FaceDetector.build_model('opencv')
         face_list=[] # grayscale face list
@@ -909,7 +919,8 @@ class Flib():
         
         
     def FList_Compare(self, face_list, model_name = 'VGG-Face',normalization = 'base', distance_metric = 'cosine', detector_backend='opencv'):
-        model = DeepFace.build_model(model_name)
+        with tf.device('/cpu:0'):
+            model = DeepFace.build_model(model_name)
         metric_name = distance_metric
         
         embedding_face_list = []
@@ -1044,8 +1055,8 @@ class Flib():
         self.best_match_dir=''
         self.best_match_score=0
         self.match_score_list={}
-        
-        model = DeepFace.build_model(model_name)
+        with tf.device('/cpu:0'):
+            model = DeepFace.build_model(model_name)
         input_shape_x, input_shape_y = functions.find_input_shape(model)
         face_detector = FaceDetector.build_model('opencv')
         
@@ -1100,12 +1111,12 @@ class Flib():
     
             for j in model_names_list:
                 custom_model = models[j]
-                
-                representation = DeepFace.represent(img_path = employee
-                                , model_name = model_name, model = custom_model
-                                , enforce_detection = enforce_detection, detector_backend = detector_backend
-                                , align = align
-                                , normalization = normalization)
+                with tf.device('/cpu:0'):
+                    representation = DeepFace.represent(img_path = employee
+                                    , model_name = model_name, model = custom_model
+                                    , enforce_detection = enforce_detection, detector_backend = detector_backend
+                                    , align = align
+                                    , normalization = normalization)
                 #if(isinstance(representation,np.ndarray)):
                 instance.append(representation)
                 # representation_list is a list of img_pixels for each file in the database
@@ -1248,8 +1259,8 @@ class Flib():
         """
         
         self.attributes_list=[]
-        
-        model = DeepFace.build_model(model_name)
+        with tf.device('/cpu:0'):
+            model = DeepFace.build_model(model_name)
         input_shape_x, input_shape_y = functions.find_input_shape(model)
         face_detector = FaceDetector.build_model('opencv')
         history=[]
