@@ -31,7 +31,7 @@ import flib.face_lib
 class AS_CapFace:
     
     def __init__(self, image_topic):
-        self.flib_obj = flib.face_lib.Flib()
+        self.flib_obj = flib.face_lib.Flib(self._get_current_image)
         
         # load tuning parameters to flib_obj
         self.flib_obj.set__wait_time(rospy.get_param('~wait_time'))
@@ -92,7 +92,15 @@ class AS_CapFace:
         
         rospy.loginfo('as_Capface action server initialized')
 
-        
+        rospy.Subscriber("/hsrb/head_rgbd_sensor/rgb/image_rect_color", Image, self._image_callback)
+        self._current_image = None
+
+    def _image_callback(self, data):
+        self._current_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+
+    def _get_current_image(self):
+        return self._current_image
+
     # as_Capface's callback function
     def Capface_cb(self,goal_msg):
         self.flib_obj.clearInterm_vars()
