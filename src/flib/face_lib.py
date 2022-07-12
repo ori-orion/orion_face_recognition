@@ -78,6 +78,7 @@ class Flib():
         self.__wait_time=100
         self.__max_face_num=30
         self.__num_representation=1
+        self.__bboxsizelimit=100
         self.__model_name='VGG-Face'
         self.__distance_metric='cosine'
         self.__detector_backend='opencv'
@@ -494,6 +495,9 @@ class Flib():
     
                 ## Finding frame size
                 H, W, _ = self.__frame_list[i].shape
+
+                if w + h <self.__bboxsizelimit:
+                    continue
     
                 ## Computing larger face co-ordinates
                 X_1, X_2 = (max(0, X - int(w * 0.35)), min(X + int(1.35 * w), W))
@@ -1342,6 +1346,9 @@ class Flib():
             ## Finding frame size
             H, W, _ = OneFace.shape
 
+            if w + h <self.__bboxsizelimit:
+                continue
+
             ## Computing larger face co-ordinates
             X_1, X_2 = (max(0, X - int(w * 0.35)), min(X + int(1.35 * w), W))
             Y_1, Y_2 = (max(0, Y - int(0.35 * h)), min(Y + int(1.35 * h), H))
@@ -1422,6 +1429,9 @@ class Flib():
                 
                 ## Finding co-ordinates of face
                 X, Y, w, h = coords
+
+                if w + h <self.__bboxsizelimit:
+                    continue
     
                 ## Finding frame size
                 H, W, _ = frame.shape
