@@ -67,9 +67,8 @@ from fastai.vision import *  # replaces the image modules import above
 
 
 class Flib():
-    
-    
-    def __init__(self):
+
+    def __init__(self, get_current_image = None):
         """
         Do change the parameters beforehand
         like: __databse_dir, __script_path
@@ -112,8 +111,8 @@ class Flib():
         
         self.attributes_list=[]
         
-        
-        
+        self.get_current_image = get_current_image
+
 # Access private variables           
     def get__frame_list(self):
         return self.__frame_list
@@ -1405,20 +1404,24 @@ class Flib():
         path=Path(os.getcwd())
         learn=load_learner(path,"ff_stage-1-256-rn50.pkl")
         face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-        cap = cv2.VideoCapture(0)
-        if not cap.isOpened():
-            print("Cannot open camera")
-            exit()
+
+        # cap = cv2.VideoCapture(0)
+        # if not cap.isOpened():
+        #     print("Cannot open camera")
+        #     exit()
             
         timeout = time.time() + wait_time
         
         count_read=0
         while time.time() < timeout and count_read<=max_face_num:
-            ret , frame = cap.read()
-            if not ret:
-                print("Can't receive frame (stream end?). Exiting ...")
-                break
-            
+            # ret , frame = cap.read()
+
+            # if not ret:
+            #     print("Can't receive frame (stream end?). Exiting ...")
+            #     break
+
+            frame = self.get_current_image()
+
             count_read=count_read+1
             
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -1458,8 +1461,7 @@ class Flib():
                     if "No_Beard" in prediction
                     else "Beard " + " ".join(prediction)
                 )
-    
-    
+
                 ## Drawing facial boundaries
                 cv2.rectangle(
                     img=frame,
