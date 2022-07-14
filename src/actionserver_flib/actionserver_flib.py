@@ -410,6 +410,9 @@ class AS_FindAttrs:
         self.as_FindAttrs = actionlib.SimpleActionServer('as_Findattrs', orion_face_recognition.msg.ActionServer_FindAttrsAction, execute_cb=self.Findattrs_cb, auto_start = False)
         
         self.as_FindAttrs.start()
+
+        self.failedface_counter=0
+
         
         rospy.loginfo('as_Findattrs action server initialized')
         
@@ -434,6 +437,15 @@ class AS_FindAttrs:
                 ros_image = rospy.wait_for_message(self.img_topic, Image)
                 frame = self.bridge.imgmsg_to_cv2(ros_image, "bgr8")
                 self.flib_obj.saveFace_ros(frame)
+
+                ## timeout if no face found    
+                if self.flib_obj.saveFace_ros(frame) == False:
+                    self.failedface_counter += 1
+
+                if self.failedface_counter == 15:
+                    self.failedface_counter = 0
+                    break
+
             
             
             

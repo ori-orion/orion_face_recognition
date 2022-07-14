@@ -487,60 +487,63 @@ class Flib():
             face_coord = face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(30, 30))
             
             ## Looping through each face
-            for coords in face_coord:
-                
-                ## Finding co-ordinates of face
-                X, Y, w, h = coords
-    
-                ## Finding frame size
-                H, W, _ = self.__frame_list[i].shape
+            #for coords in face_coord:
 
-                if w + h <self.__bboxsizelimit:
-                    continue
-    
-                ## Computing larger face co-ordinates
-                X_1, X_2 = (max(0, X - int(w * 0.35)), min(X + int(1.35 * w), W))
-                Y_1, Y_2 = (max(0, Y - int(0.35 * h)), min(Y + int(1.35 * h), H))
-    
-                ## Cropping face and changing BGR To RGB
-                img_cp = self.__frame_list[i][Y_1:Y_2, X_1:X_2].copy()
-                img_cp1 = cv2.cvtColor(img_cp, cv2.COLOR_BGR2RGB)
+            ## now we only use the face number 1
                 
-                
-                #fastai.device = torch.device('cpu')# Prediction of facial featues
-                prediction = str(
-                    learn.predict(Image(pil2tensor(img_cp1, np.float32).div_(255)))[0]
-                ).split(";")
-                label = (
-                    " ".join(prediction)
-                    if "Male" in prediction
-                    else "Female " + " ".join(prediction)
-                )
-                label = (
-                    " ".join(prediction)
-                    if "No_Beard" in prediction
-                    else "Beard " + " ".join(prediction)
-                )
-    
-    
-                ## Drawing facial boundaries
-                cv2.rectangle(
-                    img=self.__frame_list[i],
-                    pt1=(X, Y),
-                    pt2=(X + w, Y + h),
-                    color=(255, 0, 0),
-                    thickness=1,
-                )
-    
-                ## Drawing facial attributes identified
-                label_list = label.split(" ")
-    
-                history+=label_list
-                [self.attributes_list.append(x) for x in history if x not in self.attributes_list and x != "Blurry" 
-                and x != "5_o_Clock_Shadow" and x != "Mouth_Slightly_Open" and x != "Smiling"]
-                
-                if "Beard" in self.attributes_list and "No_Beard" in self.attributes_list:
-                    self.attributes_list.remove("No_Beard")
+
+                ## Finding co-ordinates of face
+            X, Y, w, h = face_coord[0]
+
+            ## Finding frame size
+            H, W, _ = self.__frame_list[i].shape
+
+            if w + h <self.__bboxsizelimit:
+                continue
+
+            ## Computing larger face co-ordinates
+            X_1, X_2 = (max(0, X - int(w * 0.35)), min(X + int(1.35 * w), W))
+            Y_1, Y_2 = (max(0, Y - int(0.35 * h)), min(Y + int(1.35 * h), H))
+
+            ## Cropping face and changing BGR To RGB
+            img_cp = self.__frame_list[i][Y_1:Y_2, X_1:X_2].copy()
+            img_cp1 = cv2.cvtColor(img_cp, cv2.COLOR_BGR2RGB)
+            
+            
+            #fastai.device = torch.device('cpu')# Prediction of facial featues
+            prediction = str(
+                learn.predict(Image(pil2tensor(img_cp1, np.float32).div_(255)))[0]
+            ).split(";")
+            label = (
+                " ".join(prediction)
+                if "Male" in prediction
+                else "Female " + " ".join(prediction)
+            )
+            label = (
+                " ".join(prediction)
+                if "No_Beard" in prediction
+                else "Beard " + " ".join(prediction)
+            )
+
+
+            ## Drawing facial boundaries
+            cv2.rectangle(
+                img=self.__frame_list[i],
+                pt1=(X, Y),
+                pt2=(X + w, Y + h),
+                color=(255, 0, 0),
+                thickness=1,
+            )
+
+            ## Drawing facial attributes identified
+            label_list = label.split(" ")
+
+            history+=label_list
+            [self.attributes_list.append(x) for x in history if x not in self.attributes_list and x != "Blurry" 
+            and x != "5_o_Clock_Shadow" and x != "Mouth_Slightly_Open" and x != "Smiling"]
+            
+            if "Beard" in self.attributes_list and "No_Beard" in self.attributes_list:
+                self.attributes_list.remove("No_Beard")
     
     
         print(self.attributes_list)

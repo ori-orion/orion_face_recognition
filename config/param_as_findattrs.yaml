@@ -1,8 +1,8 @@
 # Time for subscribing the camera topic
-wait_time: 30.0 
+wait_time: 10.0 
 
 # Max number of faces (frames with face) saved in the __frame_list
-max_face_num: 30.0 
+max_face_num: 10.0 
 
 # Number of representations for one face
 num_representation: 1.0  
