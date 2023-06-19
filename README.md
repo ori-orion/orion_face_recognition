@@ -8,6 +8,7 @@
 - [Find Attributes Action Server](#id-section5)
 - [Clear Database Action Server](#id-section6)
 - [Paremeter setting](#id-section7)
+- [Run a simple demo](#id-section8)
 
 <div id='id-section1'/>
 
@@ -63,6 +64,8 @@
 3. (Suggested) Create a folder in /orion_face_recognition, called 'saved_faces'
 4. build the package
 5. (Suggested) Go through each configure file in 'orion_face_recognition/config/', change the parameter accordingly
+
+
 
 <div id='id-section3'/>
 
@@ -259,6 +262,16 @@ This action server clears all the files in the database
 - detector_backend: Detector backend for face detection: opencv, ssd, dlib, mtcnn, retinaface, mediapipe
 - normalization: Normalize the input image before feeding to model: base, raw, Facenet, Facenet2018, VGGFace, VGGFace2, ArcFace
 
+
+<div id='id-section8'/>
+
+## Run a simple demo
+1. launch the action server
+2. run the action client
+```
+rosrun actionlib_tools axclient.py Action_Name Action_msg_path
+```
+3. Send goals from client to let server processing
 
 
 ## Contact
